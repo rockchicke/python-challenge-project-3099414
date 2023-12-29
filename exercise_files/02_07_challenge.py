@@ -2,13 +2,15 @@ import os
 import time
 from termcolor import colored
 
-# This is the Canvas class. It defines some height and width, and a 
+# This is the Canvas class. It defines some height and width, and a
 # matrix of characters to keep track of where the TerminalScribes are moving
+
+
 class Canvas:
     def __init__(self, width, height):
         self._x = width
         self._y = height
-        # This is a grid that contains data about where the 
+        # This is a grid that contains data about where the
         # TerminalScribes have visited
         self._canvas = [[' ' for y in range(self._y)] for x in range(self._x)]
 
@@ -29,6 +31,7 @@ class Canvas:
         self.clear()
         for y in range(self._y):
             print(' '.join([col[y] for col in self._canvas]))
+
 
 class TerminalScribe:
     def __init__(self, canvas):
@@ -58,6 +61,17 @@ class TerminalScribe:
         if not self.canvas.hitsWall(pos):
             self.draw(pos)
 
+    def drawSquare(self, size):
+        # Draw a square using the passed in size
+        for i in range(size):
+            self.right()
+        for i in range(size):
+            self.down()
+        for i in range(size):
+            self.left()
+        for i in range(size):
+            self.up()
+
     def draw(self, pos):
         # Set the old position to the "trail" symbol
         self.canvas.setPos(self.pos, self.trail)
@@ -70,24 +84,12 @@ class TerminalScribe:
         # Sleep for a little bit to create the animation
         time.sleep(self.framerate)
 
-# Create a new Canvas instance that is 30 units wide by 30 units tall 
+
+# Create a new Canvas instance that is 30 units wide by 30 units tall
 canvas = Canvas(30, 30)
 
 # Create a new scribe and give it the Canvas object
 scribe = TerminalScribe(canvas)
 
 # Draw a small square
-scribe.right()
-scribe.right()
-scribe.right()
-scribe.down()
-scribe.down()
-scribe.down()
-scribe.left()
-scribe.left()
-scribe.left()
-scribe.up()
-scribe.up()
-scribe.up()
-
-
+scribe.drawSquare(10)
